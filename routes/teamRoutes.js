@@ -7,5 +7,5 @@ router.get('/', teamsController.getAllTeams);
 
 // GET a specific team by ID
 router.get('/:id', teamsController.getTeamById);
-
+router.get('/name/:name',teamsController.getTeamByName);
 module.exports = router;

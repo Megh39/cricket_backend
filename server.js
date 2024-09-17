@@ -13,11 +13,16 @@ app.use(bodyParser.json());
 connectDB();  // Call the function here
 
 // Routes
-app.use('/matches', require('./routes/matchRoutes'));
-// app.use('/series', require('./routes/seriesRoutes'));
+app.use('/iccmatches',require('./routes/iccmatchRoutes.js'));
+app.use('/odimatches', require('./routes/odimatchRoutes'));
+app.use('/wcwomen',require('./routes/wcWomenRoutes'));
+app.use('/t20matches',require('./routes/t20MatchRoutes.js'));
 app.use('/players', require('./routes/playerRoutes'));
 app.use('/teams', require('./routes/teamRoutes'));
-
+app.use("/ipl",require('./routes/iplMatchRoutes.js'));
+app.use('/wpl',require('./routes/wplMatchRoutes.js'));
+app.use('/t20wc',require('./routes/t20WcRoutes.js'));
+app.use('/t20wcwomen',require('./routes/T20WcWomenRoutes.js'));
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

@@ -28,3 +28,21 @@ exports.getTeamById = (req, res) => {
     res.json(team);
   });
 };
+
+
+exports.getTeamByName = (req, res) => {
+  fs.readFile(teamsFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading teams file:', err);
+      return res.status(500).json({ message: 'Error reading teams file' });
+    }
+    const teams = JSON.parse(data);
+    
+
+    const teamName = teams.find(t => t.name.toLowerCase() === req.params.name.toLowerCase());
+    if (!teamName) {
+      return res.status(404).json({ message: 'Team not found' });
+    }
+    res.json(teamName);
+  });
+};

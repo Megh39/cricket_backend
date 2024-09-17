@@ -28,19 +28,62 @@ exports.getPlayerById = (req, res) => {
     res.json(player);
   });
 };
-
-exports.getPlayerByName = (req, res) => {
+exports.getPlayerByFirstName = (req, res) => {
   fs.readFile(playersFilePath, 'utf8', (err, data) => {
     if (err) {
       return res.status(500).json({ message: 'Error reading players file' });
     }
     const players = JSON.parse(data); // Parse the JSON data
-    const playerName = players.find(p => p.fullname === req.params.fullname);
+    const playerFirstName = players.find(p => p.firstname === req.params.firstname);
 
-    if (!playerName) {
+    if (!playerFirstName) {
       return res.status(404).json({ message: 'Player not found' });
     }
-    res.json(playerName);
+    res.json(playerFirstName);
+  });
+};
+
+exports.getPlayerByLastName = (req, res) => {
+  fs.readFile(playersFilePath, 'utf8', (err, data) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error reading players file' });
+    }
+    const players = JSON.parse(data); // Parse the JSON data
+    const playerLastName = players.find(p => p.lastname === req.params.lastname);
+
+    if (!playerLastName) {
+      return res.status(404).json({ message: 'Player not found' });
+    }
+    res.json(playerLastName);
+  });
+};
+
+exports.getPlayerByFullName = (req, res) => {
+  fs.readFile(playersFilePath, 'utf8', (err, data) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error reading players file' });
+    }
+    const players = JSON.parse(data); // Parse the JSON data
+    const playerFullName = players.find(p => p.fullname === req.params.fullname);
+
+    if (!playerFullName) {
+      return res.status(404).json({ message: 'Player not found' });
+    }
+    res.json(playerFullName);
+  });
+};
+exports.getPlayerByCountryName = (req, res) => {
+  fs.readFile(playersFilePath, 'utf8', (err, data) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error reading players file' });
+    }
+    const players = JSON.parse(data); // Parse the JSON data
+    const playerCountryName = players.find(p => p.countryname === req.params.countryname);
+
+    if (!playerCountryName) {
+      return res.status(404).json({ message: 'Player not found' });
+    }
+    res.json(playerCountryName);
   });
 };
 
