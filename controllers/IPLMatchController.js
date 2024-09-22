@@ -1,10 +1,41 @@
 const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://megh1:mongomegh@cluster0.eoycl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Replace with your MongoDB connection string
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const { ObjectId } = require('mongodb');
 
 const databaseName = 'cricketdb'; // Replace with your database name
 const matchesCollection = 'ipl'; // Replace with your collection name
 
+//Get match by Id
+
+exports.getMatchById = async (req, res) => {
+    try {
+        await client.connect();
+        const database = client.db(databaseName);
+        const collection = database.collection(matchesCollection);
+        const matchId = req.params.id;
+
+
+        // Query to find matches where team1 or team2 matches the team name
+        const query = { _id: new ObjectId(matchId) };
+
+        // const query = { $or: [{ team1: teamName }, { team2: teamName }] };
+        const match = await collection.findOne(query); // Use findOne to get a single match
+
+
+        // Check if no match is found
+        if (!match) {
+            return res.status(404).json({ message: 'No match found with this ID' });
+        }
+
+        res.json(match); // Send the match data as JSON
+    } catch (err) {
+        console.error('Error fetching matches from MongoDB:', err);
+        res.status(500).json({ message: 'Error fetching matches from MongoDB' });
+    } finally {
+        await client.close();
+    }
+};
 // Get matches by team
 exports.getMatchesByTeamName = async (req, res) => {
     try {
@@ -44,7 +75,7 @@ exports.getSeasonByYear = async (req, res) => {
 
         // Check if the seasonYear is a number or a string
         const seasonYearAsNumber = parseInt(seasonYear);
-        
+
         // Create the query to check for both string and integer representations
         const query = {
             "info.season": {

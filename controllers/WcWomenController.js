@@ -34,6 +34,36 @@ exports.getMatchesByTeamName = async (req, res) => {
         await client.close();
     }
 };
+
+//Get match by Id
+exports.getMatchById = async (req, res) => {
+    try {
+        await client.connect();
+        const database = client.db(databaseName);
+        const collection = database.collection(matchesCollection);
+        const matchId = req.params.id;
+
+
+        // Query to find matches where team1 or team2 matches the team name
+        const query = { _id: new ObjectId(matchId) };
+
+        // const query = { $or: [{ team1: teamName }, { team2: teamName }] };
+        const match = await collection.findOne(query); // Use findOne to get a single match
+
+
+        // Check if no match is found
+        if (!match) {
+            return res.status(404).json({ message: 'No match found with this ID' });
+        }
+
+        res.json(match); // Send the match data as JSON
+    } catch (err) {
+        console.error('Error fetching matches from MongoDB:', err);
+        res.status(500).json({ message: 'Error fetching matches from MongoDB' });
+    } finally {
+        await client.close();
+    }
+};
 exports.getSeasonByYear = async (req, res) => {
     try {
         await client.connect();
