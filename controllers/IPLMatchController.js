@@ -42,7 +42,8 @@ exports.getSeasonByYear = async (req, res) => {
 
         // Access the team name from the route parameter
         // const seasonYear = parseInt(req.params.seasonYear);
-        const seasonYearParam = req.params.seasonYear;
+        // const seasonYearParam = req.params.seasonYear;
+        const seasonYear = req.params.seasonYear; // Keep it as a string
 
         // const seasonYear = isNaN(seasonYearParam) ? seasonYearParam : parseInt(seasonYearParam);
 
