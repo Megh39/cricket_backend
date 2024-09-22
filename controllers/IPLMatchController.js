@@ -48,7 +48,8 @@ exports.getSeasonByYear = async (req, res) => {
 
 
         // Query to find matches where team1 or team2 matches the team name
-        const query = { "info.season": seasonYear };
+        const query = { "info.season": { $eq: seasonYear } }; // Match the seasonYear as a string
+
 
         // const query = { $or: [{ team1: teamName }, { team2: teamName }] };
         const matches = await collection.find(query).toArray();
