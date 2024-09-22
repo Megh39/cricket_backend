@@ -44,7 +44,7 @@ exports.getSeasonByYear = async (req, res) => {
         // const seasonYear = parseInt(req.params.seasonYear);
         const seasonYearParam = req.params.seasonYear;
 
-        const seasonYear = isNaN(seasonYearParam) ? seasonYearParam : parseInt(seasonYearParam);
+        // const seasonYear = isNaN(seasonYearParam) ? seasonYearParam : parseInt(seasonYearParam);
 
 
         // Query to find matches where team1 or team2 matches the team name
