@@ -1,6 +1,7 @@
 const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://megh1:mongomegh@cluster0.eoycl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Replace with your MongoDB connection string
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const { ObjectId } = require('mongodb');
 
 const databaseName = 'cricketdb'; // Replace with your database name
 const matchesCollection = 'ODIs'; // Replace with your collection name
@@ -116,20 +117,24 @@ exports.getSeasonByYear = async (req, res) => {
       const database = client.db(databaseName);
       const collection = database.collection(matchesCollection);
 
-      // Access the team name from the route parameter
-      const seasonYear = parseInt(req.params.seasonYear);
+      const seasonYear = req.params.seasonYear; // Keep it as a string
 
+      // Check if the seasonYear is a number or a string
+      const seasonYearAsNumber = parseInt(seasonYear);
 
-      // Query to find matches where team1 or team2 matches the team name
-      const query = { "info.season": seasonYear };
+      // Create the query to check for both string and integer representations
+      const query = {
+          "info.season": {
+              $in: [seasonYear, seasonYearAsNumber]
+          }
+      };
 
-      // const query = { $or: [{ team1: teamName }, { team2: teamName }] };
       const matches = await collection.find(query).toArray();
 
-
       if (matches.length === 0) {
-          return res.status(404).json({ message: 'No matches found for this team' });
+          return res.status(404).json({ message: 'No matches found for this season' });
       }
+
       res.json(matches);
   } catch (err) {
       console.error('Error fetching matches from MongoDB:', err);
