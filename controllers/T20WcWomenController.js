@@ -70,18 +70,18 @@ exports.getSeasonByYear = async (req, res) => {
         await client.connect();
         const database = client.db(databaseName);
         const collection = database.collection(matchesCollection);
-     
+
         const seasonYear = req.params.seasonYear; // Keep it as a string
 
         // Check if the seasonYear is a number or a string
         const seasonYearAsNumber = parseInt(seasonYear);
 
-       // Create the query to check for both string and integer representations
-       const query = {
-        "info.season": {
-            $in: [seasonYear, seasonYearAsNumber]
-        }
-    };
+        // Create the query to check for both string and integer representations
+        const query = {
+            "info.season": {
+                $in: [seasonYear, seasonYearAsNumber]
+            }
+        };
 
         // const query = { $or: [{ team1: teamName }, { team2: teamName }] };
         const matches = await collection.find(query).toArray();
