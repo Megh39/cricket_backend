@@ -78,7 +78,7 @@ exports.getPlayerByCountryName = (req, res) => {
       return res.status(500).json({ message: 'Error reading players file' });
     }
     const players = JSON.parse(data); // Parse the JSON data
-    const playersByCountry  = players.find(p => p.countryname === req.params.countryname);
+    const playersByCountry  = players.filter(p => p.countryname === req.params.countryname);
 
     if (!playerCountryName) {
       return res.status(404).json({ message: 'Player not found' });
