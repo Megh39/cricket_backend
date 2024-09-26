@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 // Path to the players JSON file
-const playersFilePath = path.join(__dirname, '../data/players.json');
+// const playersFilePath = path.join(__dirname, '../data/players.json');
+const playersFilePath=path.join(__dirname,"../data/players.json");
 
 // GET all players
 exports.getAllPlayers = (req, res) => {
@@ -80,8 +81,8 @@ exports.getPlayerByCountryName = (req, res) => {
     const players = JSON.parse(data); // Parse the JSON data
     const playersByCountry  = players.filter(p => p.countryname === req.params.countryname);
 
-    if (!playerCountryName) {
-      return res.status(404).json({ message: 'Player not found' });
+    if (playersByCountry.length === 0) {
+      return res.status(404).json({ message: `No players found for country ${req.params.countryname}` });
     }
     res.json(playersByCountry );
   });
