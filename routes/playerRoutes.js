@@ -11,6 +11,6 @@ router.get('/:id', getPlayerById);
 router.get("/name/:firstname",getPlayerByFirstName);
 router.get("/name/:lastname",getPlayerByLastName);
 router.get("/name/:fullname",getPlayerByFullName);
-router.get('/name/:countryname',getPlayerByCountryName);
+router.get('/country/:countryname',getPlayerByCountryName);
 router.get("/position/:position",getPlayerByPosition);
 module.exports = router;
