@@ -76,19 +76,20 @@ exports.getSeasonByYear = async (req, res) => {
         // Check if the seasonYear is a number or a string
         const seasonYearAsNumber = parseInt(seasonYear);
 
-        // Create the query to check for both string and integer representations
-        const query = {
-            "info.season": {
-                $in: [seasonYear, seasonYearAsNumber]
-            }
-        };
+       // Create the query to check for both string and integer representations
+       const query = {
+        "info.season": {
+            $in: [seasonYear, seasonYearAsNumber]
+        }
+    };
 
+        // const query = { $or: [{ team1: teamName }, { team2: teamName }] };
         const matches = await collection.find(query).toArray();
 
-        if (matches.length === 0) {
-            return res.status(404).json({ message: 'No matches found for this season' });
-        }
 
+        if (matches.length === 0) {
+            return res.status(404).json({ message: 'No matches found for this team' });
+        }
         res.json(matches);
     } catch (err) {
         console.error('Error fetching matches from MongoDB:', err);
